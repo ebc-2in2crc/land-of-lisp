@@ -95,5 +95,5 @@
 (defun within-two (a b edge-alist)
   (or (within-one a b edge-alist)
       (some (lambda (x)
-			  (within-one x b edge-alist))
-	        (neighbors a edge-alist))))
+              (within-one x b edge-alist))
+            (neighbors a edge-alist))))
