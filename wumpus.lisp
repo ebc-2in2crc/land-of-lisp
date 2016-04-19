@@ -74,7 +74,7 @@
 (defun add-cops (edge-alist edges-with-cops)
   (mapcar (lambda (x)
             (let ((node1 (car x))
-                  (node-edges (cdr x)))
+                  (node1-edges (cdr x)))
               (cons node1
                     (mapcar (lambda (edge)
                               (let ((node2 (car edge)))
@@ -114,3 +114,19 @@
                                  '(lights!)))
                           (when (some #'cdr (cdr (assoc n edge-alist)))
                             '(sirens!))))))
+
+(defun find-empty-node ()
+  (let ((x (random-node)))
+    (if (cdr (assoc x *congestion-city-nodes*))
+        (find-empty-node)
+        x)))
+
+(defun draw-city ()
+  (ugraph->png "city" *congestion-city-nodes* *congestion-city-edges*))
+
+(defun new-game ()
+  (setf *congestion-city-edges* (make-city-edge))
+  (setf *congestion-city-nodes* (make-city-nodes *congestion-city-edges*))
+  (setf *player-pos* (find-empty-node))
+  (setf *visited-nodes* (list *player-pos*))
+  (draw-city))
