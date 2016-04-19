@@ -60,7 +60,7 @@
          (cops (remove-if-not (lambda (x)
                                 (zerop (random *cop-odds*)))
                               edge-list)))
-    (add-cops (edges-to-alist edge-list))))
+    (add-cops (edges-to-alist edge-list) cops)))
 
 (defun edges-to-alist (edge-list)
   (mapcar (lambda (node1)
@@ -80,7 +80,7 @@
                               (let ((node2 (car edge)))
                                 (if (intersection (edge-pair node1 node2)
                                                   edges-with-cops
-                                                  :test '#equal)
+                                                  :test #'equal)
                                     (list node2 'cops)
                                     edge)))
                             node1-edges))))
