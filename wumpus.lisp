@@ -115,7 +115,7 @@
                           (when (some #'cdr (cdr (assoc n edge-alist)))
                             '(sirens!))))))
 
-(defun find-empty-node ()
+(defun find-random-empty-node ()
   (let ((empty-nodes (find-empty-nodes)))
     (car (elt empty-nodes (random (length empty-nodes))))))
 
@@ -130,7 +130,7 @@
 (defun new-game ()
   (setf *congestion-city-edges* (make-city-edge))
   (setf *congestion-city-nodes* (make-city-nodes *congestion-city-edges*))
-  (setf *player-pos* (find-empty-node))
+  (setf *player-pos* (find-random-empty-node))
   (setf *visited-nodes* (list *player-pos*))
   (draw-city)
   (draw-known-city))
