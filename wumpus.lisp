@@ -116,10 +116,13 @@
                             '(sirens!))))))
 
 (defun find-empty-node ()
-  (let ((x (random-node)))
-    (if (cdr (assoc x *congestion-city-nodes*))
-        (find-empty-node)
-        x)))
+  (let ((empty-nodes (find-empty-nodes)))
+    (car (elt empty-nodes (random (length empty-nodes))))))
+
+(defun find-empty-nodes ()
+  (remove-if-not (lambda (x)
+                    (equal (cdr x) nil))
+                  *congestion-city-nodes*))
 
 (defun draw-city ()
   (ugraph->png "city" *congestion-city-nodes* *congestion-city-edges*))
