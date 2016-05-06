@@ -120,9 +120,9 @@
     (car (elt empty-nodes (random (length empty-nodes))))))
 
 (defun find-empty-nodes ()
-  (remove-if-not (lambda (x)
-                    (equal (cdr x) nil))
-                  *congestion-city-nodes*))
+  (remove-if (lambda (x)
+               (cdr x))
+             *congestion-city-nodes*))
 
 (defun draw-city ()
   (ugraph->png "city" *congestion-city-nodes* *congestion-city-edges*))
