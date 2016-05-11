@@ -28,3 +28,10 @@
                    (random-animal)
                    (random-animal)
                    (random-animal))))
+
+(defparameter *animals* (loop repeat 10 collect (random-animal)))
+
+(defun sequence-each-format ()
+  (format t "~{I see a ~a!~}" *animals*)
+  (fresh-line)
+  (format t "~{I see a ~a... or was it a ~a?~&~}" *animals*))
