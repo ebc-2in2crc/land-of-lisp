@@ -35,3 +35,6 @@
   (format t "~{I see a ~a!~}" *animals*)
   (fresh-line)
   (format t "~{I see a ~a... or was it a ~a?~&~}" *animals*))
+
+(defun crazy-formatting-trick()
+  (format t "|~{~<|~%|~,33:;~2d ~>~}|" (loop for x below 100 collect x)))
