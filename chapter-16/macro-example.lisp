@@ -12,8 +12,24 @@
           ,no))))
 
 (defun my-length (lst)
+  (recurse (lst lst
+            acc 0)
+           (split lst
+             (self tail (1+ acc))
+             acc)))
+
+(defun pairs (lst)
   (labels ((f (lst acc)
-             (split lst
-               (f tail (1+ acc))
-               acc)))
-    (f lst 0)))
+              (split lst
+                (if tail
+                    (f (cdr tail) (cons (cons head (car tail)) acc))
+                    (reverse acc))
+                (reverse acc))))
+    (f lst nil)))
+
+(defmacro recurse (vars &body body)
+  (let1 p (pairs vars)
+    `(labels ((self ,(mapcar #'car p)
+                ,@body))
+        (self ,@(mapcar #'cdr p)))))
+
