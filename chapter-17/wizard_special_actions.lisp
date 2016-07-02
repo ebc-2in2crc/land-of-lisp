@@ -1,12 +1,16 @@
 (defmacro game-action (command subj obj place &body body)
-  `(progn (defun ,command (subject object)
-            (if (and (eq *location* ',place)
-                     (eq subject ',subj)
-                     (eq object ',obj)
-                     (have ',subj))
-                ,@body
-                '(i cant ,command like that.)))
-          (pushnew ',command *allowed-commands*)))
+  (let ((s (gensym))
+        (o (gensym)))
+    `(let ((,s 'subject)
+           (,o 'object))
+       (progn (defun ,command (,s ,o)
+                (if (and (eq *location* ',place)
+                         (eq ,s ',subj)
+                         (eq ,o ',obj)
+                         (have ',subj))
+                    ,@body
+                    '(i cant ,command like that.)))
+              (pushnew ',command *allowed-commands*)))))
 
 (defparameter *chain-welded* nil)
 
