@@ -61,6 +61,9 @@
 (defun inventory ()
   (cons 'items- (objects-at 'body *objects* *object-locations*)))
 
+(defun have (object)
+  (member object (cdr (inventory))))
+
 (defun game-repl ()
     (let ((cmd (game-read)))
         (unless (eq (car cmd) 'quit)
@@ -73,7 +76,7 @@
                     (list 'quote x)))
              (cons (car cmd) (mapcar #'quote-it (cdr cmd))))))
 
-(defparameter *allowed-commands* '(look walk pickup inventory weld dunk))
+(defparameter *allowed-commands* '(look walk pickup inventory))
 
 (defun game-eval (sexp)
     (if (member (car sexp) *allowed-commands*)
