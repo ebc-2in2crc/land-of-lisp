@@ -60,6 +60,6 @@
           (lazy-find-if fun (lazy-cdr lst))))))
 
 (defun lazy-nth (n lst)
-  (if (zorop n)
+  (if (zerop n)
       (lazy-car lst)
       (lazy-nth (1- n) (lazy-cdr lst))))
