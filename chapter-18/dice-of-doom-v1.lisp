@@ -151,15 +151,12 @@
 
 (defun rate-position (tree player)
   (let ((moves (caddr tree)))
-    (if moves
+    (if (not (lazy-null moves))
         (apply (if (eq (car tree) player)
                    #'max
                    #'min)
-               (get-ratings tree tree))
-        (let ((w (winners (cadr tree))))
-          (if (member player w)
-              (/ 1 (length w))
-              0)))))
+               (get-ratings tree player))
+        (score-board (cadr tree) player))))
 
 (let ((old-rate-position (symbol-function 'rate-position))
       (previous (make-hash-table)))
@@ -172,9 +169,9 @@
                 (funcall old-rate-position tree player))))))
 
 (defun get-ratings (tree player)
-  (mapcar (lambda (move)
-            (rate-position (cadr move) player))
-          (caddr tree)))
+  (take-all (lazy-mapcar (lambda (move)
+                           (rate-position (cadr move) player))
+                         (caddr tree))))
 
 (defun handle-computer (tree)
   (let ((ratings (get-ratings tree (car tree))))
@@ -185,4 +182,3 @@
   (cond ((null (caddr tree)) (announce-winner (cadr tree)))
         ((zerop (car tree)) (play-vs-computer (handle-human tree)))
         (t (play-vs-computer (handle-computer tree)))))
-
